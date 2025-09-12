@@ -21,6 +21,6 @@ go run .
 cd frontend  
 use o LiveServer
 
-#Testes unitários
-cd backend
+#Testes unitários  
+cd backend  
 go test -v ./...
