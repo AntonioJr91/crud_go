@@ -20,3 +20,7 @@ go run .
 #Iniciar o frontend  
 cd frontend  
 use o LiveServer
+
+#Testes unitários
+cd backend
+go test -v ./...
