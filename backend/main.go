@@ -26,7 +26,7 @@ func main() {
 	r.Use(cors.Handler(cors.Options{
 		AllowedOrigins: []string{
 			"http://127.0.0.1:5500", // live Server
-			"localhost:5500/frontend/", //localhost
+			"http://localhost:5500", //localhost
 		},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},

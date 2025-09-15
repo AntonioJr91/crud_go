@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: items
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  go_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: go_api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DB_USER: root
+      DB_PASS: 123
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_NAME: items
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:
