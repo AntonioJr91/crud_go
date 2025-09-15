@@ -13,7 +13,7 @@ import (
 func main() {
 	os.Setenv("DB_USER", "root")
 	os.Setenv("DB_PASS", "123")
-	os.Setenv("DB_HOST", "127.0.0.1")
+	os.Setenv("DB_HOST", "mariadb")
 	os.Setenv("DB_PORT", "3306")
 	os.Setenv("DB_NAME", "items")
 
@@ -26,6 +26,7 @@ func main() {
 	r.Use(cors.Handler(cors.Options{
 		AllowedOrigins: []string{
 			"http://127.0.0.1:5500", // live Server
+			"localhost:5500/frontend/", //localhost
 		},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},

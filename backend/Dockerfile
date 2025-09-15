@@ -1,0 +1,20 @@
+# syntax=docker/dockerfile:1
+FROM golang:1.25.1
+
+WORKDIR /backend
+
+# Copia os módulos e baixa dependências
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copia o restante do código
+COPY *.go ./
+
+# Compila para binário estático
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app
+
+# Porta que a API vai expor
+EXPOSE 8080
+
+# Comando para rodar o binário
+CMD ["/app"]
