@@ -79,7 +79,7 @@ async function renderListAll() {
       <button onclick="renderHome()" class="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Voltar</button>
     `;
   } catch (error) {
-    alert("Erro ao buscar items.");
+    // alert("Erro ao buscar items.");
     console.log(error.message);
   }
 
