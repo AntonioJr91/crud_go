@@ -1,26 +1,35 @@
-#Tecnologias  
-Backend: Go  
-Frontend: JavaScript / HTML  
-Estrutura: diretórios backend/ e frontend
+#Technologies
+Backend: Go
+Frontend: JavaScript / HTML
+Structure: directories backend/ and frontend
 
-#Funcionalidades  
-Criar, ler, atualizar e deletar itens (CRUD)  
-API REST no backend  
-Interface simples no frontend para consumir a API  
+#Features
+Create, read, update, and delete items (CRUD)
+REST API on the backend
+Simple frontend interface to consume the API
 
-#Como rodar  
-Clonar o repositório  
-git clone https://github.com/AntonioJr91/crud_go.git  
+#How to run
+Clone the repository
+git clone https://github.com/AntonioJr91/crud_go.git
+
 cd crud_go
 
-#Iniciar o backend  
-cd backend  
-go run .   
+#Start the backend
+cd backend
+go run .
 
-#Iniciar o frontend  
-cd frontend  
-use o LiveServer
+#Start the frontend
+cd frontend
+use LiveServer
 
-#Testes unitários  
-cd backend  
+#Unit tests
+cd backend
 go test -v ./...
+
+#Docker
+frontend local port 3000
+backend local port 8080
+mariadb local port 3306
+
+start the containers
+docker compose up --build
