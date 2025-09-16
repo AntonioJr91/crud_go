@@ -47,7 +47,7 @@ func main() {
 		r.Delete("/{id}", DeleteItemHandler) // Deletar
 	})
 
-	log.Println("Servidor backend rodando em http://localhost:8080")
+	log.Println("Servidor backend rodando em http://localhost:8080/items")
 	log.Println("Servidor frontend rodando em http://localhost:3000")
 	http.ListenAndServe("0.0.0.0:8080", r)
 
