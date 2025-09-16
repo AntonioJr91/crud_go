@@ -11,10 +11,10 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
 
-  go_api:
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     container_name: go_api
     restart: unless-stopped
     ports:
@@ -27,6 +27,17 @@ services:
       DB_NAME: items
     depends_on:
       - mariadb
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
 
 volumes:
   mariadb_data:

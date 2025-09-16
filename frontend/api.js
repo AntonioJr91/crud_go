@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "http://backend:8080";
 
 //busca todos items
 export async function getItems() {

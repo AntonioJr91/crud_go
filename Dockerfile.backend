@@ -4,11 +4,11 @@ FROM golang:1.25.1
 WORKDIR /backend
 
 # Copia os módulos e baixa dependências
-COPY go.mod go.sum ./
+COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 
 # Copia o restante do código
-COPY *.go ./
+COPY backend/*.go ./
 
 # Compila para binário estático
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app

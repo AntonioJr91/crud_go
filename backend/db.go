@@ -12,6 +12,7 @@ var db *sql.DB
 
 // InitDB cria a conexão com o MariaDB
 func InitDB() {
+	connectWithRetry()
 	// Pegando variáveis de ambiente
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASS")
