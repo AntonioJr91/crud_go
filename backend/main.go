@@ -47,15 +47,13 @@ func main() {
 		r.Delete("/{id}", DeleteItemHandler) // Deletar
 	})
 
-	log.Println("Servidor rodando em http://localhost:8080")
+	log.Println("Servidor backend rodando em http://localhost:8080")
+	log.Println("Servidor frontend rodando em http://localhost:3000")
 	http.ListenAndServe("0.0.0.0:8080", r)
 
 }
 
-// InitDB inicializa a conexão com o banco
-
-
-// connectWithRetry tenta conectar ao banco até 5 vezes
+// connectWithRetry tenta conectar ao banco
 func connectWithRetry() {
 	var err error
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
@@ -66,7 +64,7 @@ func connectWithRetry() {
 		os.Getenv("DB_NAME"),
 	)
 
-	for i := 1; i <= 5; i++ { // tenta 5 vezes
+	for i := 1; i <= 5; i++ {
 		DB, err = sql.Open("mysql", dsn)
 		if err != nil {
 			log.Printf("Erro ao abrir conexão: %v", err)
@@ -78,7 +76,7 @@ func connectWithRetry() {
 			}
 			log.Printf("Erro ao conectar (tentativa %d): %v", i, err)
 		}
-		time.Sleep(2 * time.Second) // espera 2 segundos antes da próxima tentativa
+		time.Sleep(2 * time.Second)
 	}
 
 	log.Fatal("Não foi possível conectar ao banco de dados após 5 tentativas")
