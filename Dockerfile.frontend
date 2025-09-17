@@ -1,9 +1,15 @@
-FROM nginx:alpine
+FROM node:18-alpine
 
-# Remove configuração default do Nginx
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copia os arquivos do frontend
-COPY frontend /usr/share/nginx/html
+# Copia todo o código do frontend
+COPY frontend/ .
 
-EXPOSE 80
+# Instala http-server globalmente
+RUN npm install -g http-server
+
+# Expõe a porta do servidor
+EXPOSE 3000
+
+# Comando para rodar o servidor
+CMD ["http-server", "-p", "3000", "-c-1"]
