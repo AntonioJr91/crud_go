@@ -2,12 +2,11 @@ import { getItems, createItem, getItemById, updateItem, deleteItem } from "./api
 const app = document.getElementById('app');
 var cards = ["Adicionar", "Listar Todos", "Buscar por ID", "Editar", "Deletar"];
 
-// renderiza o menu principal com os cards
 function renderHome() {
   app.innerHTML = `
     <h1 class="text-2xl font-bold text-center mb-6">Menu Principal</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
-      ${['Adicionar', 'Listar todos', 'Buscar por ID', 'Editar', 'Deletar'].map(action => `
+      ${cards.map(action => `
         <div onclick="handleCardClick('${action}')" 
              class="bg-white shadow-md rounded-2xl p-6 w-48 text-center cursor-pointer hover:bg-gray-50">
           <p class="font-semibold text-gray-700">${action}</p>
@@ -17,7 +16,6 @@ function renderHome() {
   `;
 };
 
-// manipula as ações de click nos cards e renderiza seu respectivo form
 function handleCardClick(action) {
   switch (action) {
     case 'Adicionar': renderAddForm(); break;
@@ -29,7 +27,6 @@ function handleCardClick(action) {
 };
 window.handleCardClick = handleCardClick;
 
-// renderiza o formulário de cadastro
 function renderAddForm() {
   app.innerHTML = `
     <h2 class="text-xl font-bold mb-4 text-center">Adicionar Item</h2>
@@ -42,7 +39,6 @@ function renderAddForm() {
   `;
 };
 
-// botão de adicionar um novo item
 async function addItem(event) {
   event.preventDefault();
   const name = document.getElementById('name').value;
@@ -57,7 +53,6 @@ async function addItem(event) {
 };
 window.addItem = addItem;
 
-// listagem completa dos itens
 async function renderListAll() {
   try {
     const items = await getItems();
@@ -66,7 +61,6 @@ async function renderListAll() {
         <button onclick="renderHome()" class="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Voltar</button>
       `;
 
-    // ordenan a lista por id
     const listHTML = items
       .sort((a, b) => a.id - b.id)
       .map(item => `
@@ -79,13 +73,11 @@ async function renderListAll() {
       <button onclick="renderHome()" class="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Voltar</button>
     `;
   } catch (error) {
-    // alert("Erro ao buscar items.");
     console.log(error.message);
   }
 
 };
 
-// renderiza o item do id encontrado
 function renderSearchById() {
   app.innerHTML = `
     <h2 class="text-xl font-bold mb-4 text-center">Buscar por ID</h2>
@@ -97,13 +89,16 @@ function renderSearchById() {
   `;
 };
 
-// botão que busca o item pelo ID
 async function searchById(event) {
   event.preventDefault();
   const id = parseInt(document.getElementById('searchId').value);
   try {
     const item = await getItemById(id);
-    alert(`ID: ${item.id}\nNome: ${item.name}\nEmail: ${item.email}`);
+       app.innerHTML = `
+      <h2 class="text-xl font-bold mb-4 text-center">Lista de Itens</h2>
+      <ul class="bg-white shadow-md rounded-xl p-4 max-h-80 overflow-y-auto">${`ID: ${item.id} - <strong>${item.name}</strong> (${item.email}`}</ul>
+      <button onclick="renderHome()" class="mt-4 w-full bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Voltar</button>
+    `;
   } catch (error) {
     alert("Item não encontrado");
     console.log(error.message);
@@ -111,7 +106,6 @@ async function searchById(event) {
 };
 window.searchById = searchById;
 
-// renderiza o componente de editar o item
 function renderEditItem() {
   app.innerHTML = `
     <h2 class="text-xl font-bold mb-4 text-center">Editar Item</h2>
@@ -125,7 +119,6 @@ function renderEditItem() {
   `;
 };
 
-// rxecuta as alterações do item editado
 async function editItemHanlder(event) {
   event.preventDefault();
   const id = parseInt(document.getElementById('editId').value);
@@ -143,7 +136,6 @@ async function editItemHanlder(event) {
 };
 window.editItemHanlder = editItemHanlder;
 
-// renderiza o componente para deletar um item
 function renderDeleteItem() {
   app.innerHTML = `
     <h2 class="text-xl font-bold mb-4 text-center">Deletar Item</h2>
@@ -155,7 +147,6 @@ function renderDeleteItem() {
   `;
 };
 
-// remove o item se encontrado
 async function deleteItemHandler(event) {
   event.preventDefault();
   const id = parseInt(document.getElementById('deleteId').value);
@@ -171,6 +162,5 @@ async function deleteItemHandler(event) {
 };
 window.deleteItemHandler = deleteItemHandler;
 
-// inicializa
 renderHome();
 window.renderHome = renderHome;

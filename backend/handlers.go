@@ -7,7 +7,6 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-//lista todos os items
 func ListItemsHandler(w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT id, name, email FROM items")
 	if err != nil {
@@ -30,7 +29,6 @@ func ListItemsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(items)
 }
 
-//pega um nome pelo ID
 func GetItemHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
@@ -50,7 +48,6 @@ func GetItemHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(c)
 }
 
-//cria um novo item
 func CreateItemHandler(w http.ResponseWriter, r *http.Request) {
 	var c Item
 	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
@@ -78,7 +75,6 @@ func CreateItemHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(c)
 }
 
-//atualiza um item
 func UpdateItemHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	var c Item
@@ -108,7 +104,6 @@ func UpdateItemHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"message": "Item atualizado com sucesso"})
 }
 
-// remove um item
 func DeleteItemHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 

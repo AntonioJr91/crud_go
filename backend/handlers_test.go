@@ -20,7 +20,6 @@ func TestListItemsHandler(t *testing.T) {
 	var mock sqlmock.Sqlmock
 	var err error
 
-	// cria mock do banco
 	mockDB, mock, err = sqlmock.New()
 	require.NoError(t, err)
 	defer mockDB.Close()
@@ -28,7 +27,6 @@ func TestListItemsHandler(t *testing.T) {
 	// substitui a variável global db pelo mock
 	db = mockDB
 
-	// mocka retorno do SELECT
 	rows := sqlmock.NewRows([]string{"id", "name", "email"}).
 		AddRow(1, "Doka", "doka@example.com").
 		AddRow(2, "Coto", "@example.com")
@@ -36,7 +34,6 @@ func TestListItemsHandler(t *testing.T) {
 	mock.ExpectQuery("SELECT id, name, email FROM items").
 		WillReturnRows(rows)
 
-	// cria request
 	req := httptest.NewRequest(http.MethodGet, "/items", nil)
 	w := httptest.NewRecorder()
 
@@ -55,7 +52,6 @@ func TestListItemsHandler(t *testing.T) {
 	require.Equal(t, "Doka", items[0].Name)
 	require.Equal(t, "Coto", items[1].Name)
 
-	// garante que todas as expectativas foram atendidas
 	require.NoError(t, mock.ExpectationsWereMet())
 }
 
@@ -66,7 +62,6 @@ func TestGetItemHandler(t *testing.T) {
 	defer mockDB.Close()
 	db = mockDB
 
-	// caso sucesso
 	rows := sqlmock.NewRows([]string{"id", "name", "email"}).
 		AddRow(1, "Doka", "doka@example.com")
 
@@ -94,7 +89,6 @@ func TestGetItemHandler(t *testing.T) {
 	require.Equal(t, "Doka", item.Name)
 	require.Equal(t, "doka@example.com", item.Email)
 
-	// caso item não encontrado
 	mock.ExpectQuery("SELECT id, name, email FROM items WHERE id = ?").
 		WithArgs("2").
 		WillReturnError(sql.ErrNoRows)
@@ -122,7 +116,6 @@ func TestCreateItemHandler(t *testing.T) {
 	defer mockDB.Close()
 	db = mockDB
 
-	// mock inserção
 	mock.ExpectExec("INSERT INTO items").
 		WithArgs("João", "joao@example.com").
 		WillReturnResult(sqlmock.NewResult(10, 1))
@@ -147,30 +140,25 @@ func TestUpdateItemHandler(t *testing.T) {
 	var mock sqlmock.Sqlmock
 	var err error
 
-	// cria mock do banco
 	mockDB, mock, err = sqlmock.New()
 	require.NoError(t, err)
 	defer mockDB.Close()
 
-	// substitui variável global db
 	db = mockDB
 
-	// caso de sucesso
 	item := Item{Name: "Novo Nome", Email: "novo@email.com"}
 	body, _ := json.Marshal(item)
 
 	req := httptest.NewRequest(http.MethodPut, "/items/1", bytes.NewReader(body))
 	w := httptest.NewRecorder()
 
-	// configura RouteContext para chi.URLParam
 	rctx := chi.NewRouteContext()
 	rctx.URLParams.Add("id", "1")
 	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, rctx))
 
-	// mock do Exec
 	mock.ExpectExec("UPDATE items").
 		WithArgs(item.Name, item.Email, "1").
-		WillReturnResult(sqlmock.NewResult(1, 1)) // 1 linha afetada
+		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	UpdateItemHandler(w, req)
 
@@ -183,7 +171,6 @@ func TestUpdateItemHandler(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "Item atualizado com sucesso", res["message"])
 
-	// caso item não encontrado
 	req2 := httptest.NewRequest(http.MethodPut, "/items/2", bytes.NewReader(body))
 	w2 := httptest.NewRecorder()
 
@@ -193,14 +180,13 @@ func TestUpdateItemHandler(t *testing.T) {
 
 	mock.ExpectExec("UPDATE items").
 		WithArgs(item.Name, item.Email, "2").
-		WillReturnResult(sqlmock.NewResult(1, 0)) // 0 linhas afetadas
+		WillReturnResult(sqlmock.NewResult(1, 0))
 
 	UpdateItemHandler(w2, req2)
 	resp2 := w2.Result()
 	defer resp2.Body.Close()
 	require.Equal(t, http.StatusNotFound, resp2.StatusCode)
 
-	// garante que todas expectativas foram atendidas
 	require.NoError(t, mock.ExpectationsWereMet())
 }
 
@@ -211,7 +197,6 @@ func TestDeleteItemHandler(t *testing.T) {
 	defer mockDB.Close()
 	db = mockDB
 
-	// caso sucesso: 1 linha deletada
 	req := httptest.NewRequest(http.MethodDelete, "/items/1", nil)
 	w := httptest.NewRecorder()
 
@@ -229,7 +214,6 @@ func TestDeleteItemHandler(t *testing.T) {
 	defer resp.Body.Close()
 	require.Equal(t, http.StatusNoContent, resp.StatusCode)
 
-	// caso item não encontrado: 0 linhas afetadas
 	req2 := httptest.NewRequest(http.MethodDelete, "/items/2", nil)
 	w2 := httptest.NewRecorder()
 

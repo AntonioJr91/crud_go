@@ -10,12 +10,10 @@ import (
 
 var db *sql.DB
 
-// InitDB cria a conexão com o MariaDB
 func InitDB() {
 
 	connectWithRetry()
 	
-	// Pegando variáveis de ambiente
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASS")
 	host := os.Getenv("DB_HOST")
@@ -27,16 +25,14 @@ func InitDB() {
 	var err error
 	db, err = sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatalf("Erro ao abrir conexão com o banco: %v", err)
+		log.Fatalf("Failed to open database connection: %v", err)
 	}
 
-	// Testa conexão
 	if err = db.Ping(); err != nil {
-		log.Fatalf("Erro ao conectar no banco: %v", err)
+		log.Fatalf("Database connection failure: %v", err)
 	}
-	log.Println("Banco conectado com sucesso!")
+	log.Println("Database connected successfully!")
 
-	//cria a tabela
 	query := `
 	CREATE TABLE IF NOT EXISTS items (
 		id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,8 +42,8 @@ func InitDB() {
 	`
 	_, err = db.Exec(query)
 	if err != nil {
-		log.Fatalf("Erro ao criar tabela: %v", err)
+		log.Fatalf("Failed to create table: %v", err)
 	}
 
-	log.Println("Tabela 'items' criada com sucesso!")
+	log.Println("Table 'items' created successfully!")
 }

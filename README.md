@@ -1,20 +1,27 @@
-#Technologies  
+## Project structure  
+crud_go/  
+│   
+├── backend/  
+│  
+└── frontend/  
+
+## Technologies  
 Backend: Go  
 Frontend: JavaScript / HTML  
 Structure: directories backend/ and frontend  
 
-#Features  
+## Features  
 Create, read, update, and delete items (CRUD)  
 REST API on the backend  
 Simple frontend interface to consume the API  
 
-#How to run  
+## How to run  
 Clone the repository  
 git clone https://github.com/AntonioJr91/crud_go.git  
 
 cd crud_go  
 
-#Start the backend  
+## Start the backend  
 cd backend  
 go run .  
 
@@ -22,10 +29,17 @@ go run .
 cd backend  
 go test -v ./...  
 
-#Docker  
+## Docker  
 frontend local port 3000  
 backend local port 8080  
 mariadb local port 3306  
 
 start the containers  
 docker compose up --build
+
+## Endpoinst API  
+GET -> /items  
+GET -> /items/{id}  
+POST -> /items  
+PUT -> /items/{id}  
+DELETE -> /items/{id}
