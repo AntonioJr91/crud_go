@@ -2,14 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copia todo o código do frontend
 COPY frontend/ .
 
-# Instala http-server globalmente
 RUN npm install -g http-server
 
-# Expõe a porta do servidor
 EXPOSE 3000
 
-# Comando para rodar o servidor
 CMD ["http-server", "-p", "80", "-c-1"]

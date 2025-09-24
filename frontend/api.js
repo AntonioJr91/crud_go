@@ -1,6 +1,5 @@
 const BASE_URL = "http://localhost:8080";
 
-//busca todos items
 export async function getItems() {
   const resp = await fetch(`${BASE_URL}/items`);
   if (!resp.ok) throw new Error("Erro ao buscar items");
@@ -8,7 +7,6 @@ export async function getItems() {
   return  await resp.json();
 };
 
-//criar item
 export async function createItem(name, email) {
   const resp = await fetch(`${BASE_URL}/items`, {
     method: "POST",
@@ -19,14 +17,12 @@ export async function createItem(name, email) {
   return resp.json();
 };
 
-//buscar por ID
 export async function getItemById(id) {
   const resp = await fetch(`${BASE_URL}/items/${id}`);
   if (!resp.ok) throw new Error("Item não encontrado");
   return resp.json();
 };
 
-//editar item
 export async function updateItem(id, updateData) {
   if (!id) throw new Error("ID inválido!");
 
@@ -39,7 +35,6 @@ export async function updateItem(id, updateData) {
   return resp.json();
 };
 
-// deletar item
 export async function deleteItem(id) {
   const resp = await fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",

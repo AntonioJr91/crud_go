@@ -24,7 +24,6 @@ func TestListItemsHandler(t *testing.T) {
 	require.NoError(t, err)
 	defer mockDB.Close()
 
-	// substitui a variável global db pelo mock
 	db = mockDB
 
 	rows := sqlmock.NewRows([]string{"id", "name", "email"}).
